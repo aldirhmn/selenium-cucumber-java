@@ -1,5 +1,6 @@
 package com.automation.dbs.stepDefinitions;
 
+import com.automation.dbs.utilities.Helpers;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,14 +28,14 @@ public class LoginSteps {
         options.addArguments("--disable-popup-blocking");
 
         driver = new ChromeDriver(options);
-        driver.get("https://the-internet.herokuapp.com/login");
+        driver.get(Helpers.getProperty("baseUrl"));
         loginPages = new LoginPages(driver);
     }
 
-    @When("User input valid username and password")
-    public void validCredentials(){
-        loginPages.inputUsername("tomsmith");
-        loginPages.inputPassword("SuperSecretPassword!");
+    @When("User input username with {string} and password with {string}")
+    public void validCredentials(String username, String password){
+        loginPages.inputUsername(username);
+        loginPages.inputPassword(password);
     }
 
     @And("User click button Login")
@@ -47,16 +48,10 @@ public class LoginSteps {
         loginPages.homePage();
     }
 
-
-    //--Login Cases
-    @When("User input invalid username and invalid password")
-    public void invalidCredentials(){
-        loginPages.inputUsername("johndoe");
-        loginPages.inputPassword("WrongPassword!");
-    }
-
     @Then("User failed to Login and get Error Message")
     public void errorLoginMsg(){
         Assert.assertTrue(driver.getPageSource().contains("Your username is invalid!"));
+        Helpers.takeScreenshot();
+        driver.quit();
     }
 }

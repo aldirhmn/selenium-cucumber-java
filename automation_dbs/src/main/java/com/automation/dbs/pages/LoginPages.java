@@ -21,7 +21,7 @@ public class LoginPages {
     
     public void inputUsername(String username){
         Helpers.takeScreenshot();
-        WebElement usernameElement = Helpers.waitForElementVisible(field_username, 1000);
+        WebElement usernameElement = Helpers.waitForElementVisible(field_username, 60);
         usernameElement.sendKeys(username);
     }
 
@@ -35,8 +35,10 @@ public class LoginPages {
     }
 
     public void homePage(){
-        Helpers.waitForElementVisible(text_homePage, 1000);
+        Helpers.waitForElementVisible(text_homePage, 60);
+        Helpers.takeScreenshot();
         System.out.println(driver.findElement(text_homePage).getText());
+        driver.quit();
     }
     
 }
